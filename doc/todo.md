@@ -3,8 +3,8 @@ TODO
 
 Unassigned tasks
 ----------------
-* How to efficiently kill players
-* How to efficiently move around
+* Turtles: How to efficiently kill players
+* Turtles: How to efficiently move around
 
 Week1 - Ends 4th of January
 ---------------------------
