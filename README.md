@@ -1,7 +1,7 @@
 yolo-meritahti
 ==============
 
-ComputerCraft AI project
+ComputerCraft AI project. Goal of the project: Conquer the minecraft world with Turtles!
 
 Modpack: FTB Ressurection
 
