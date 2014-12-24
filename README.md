@@ -3,10 +3,31 @@ yolo-meritahti
 
 ComputerCraft AI project. Goal of the project: Conquer the minecraft world with Turtles!
 
-Modpack: FTB Ressurection
 
-Improvements to the modpack
----------------------------
+Directory Structure
+-------------------
+
+* doc/ : Some project specific documentation
+* src/ : .lua files for ComputerCraft/Turtle **programs**
+* src/lib/ : .lua files for common libraries, utilities and misc files
+
+
+On a ComputerCraft computer
+
+* lib/ : src/lib/ copied as is 
+* lib/help/ : help files for programs etc. Can be read with CraftOS help program if installer was used.
+* bin/ : programs are copied here (from src/) without `.lua` extension
+
+
+
+Mods
+----
+
+We use modpack FTB Ressurection.
+ComputerCraft version: 1.65
+
+
+**Improvements to the modpack**
 
 1. Download FTB Ressurection with ftb-launcher
 2. Edit the modpack from ftb-launcher, add [FastCraft](http://forum.industrial-craft.net/index.php?page=Thread&threadID=10820) (the .jar file)
