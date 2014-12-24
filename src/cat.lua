@@ -21,6 +21,9 @@ for _, inputPath in ipairs(tArgs) do
         for line in inputFile:lines() do
             print(line)
         end
+
+        io.close(inputFile)
+
     else
         print("Error! Invalid input file: " .. inputPath)
         print(usage)
