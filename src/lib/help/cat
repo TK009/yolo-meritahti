@@ -1,0 +1,3 @@
+usage: cat [files]
+files are paths to readable files or "-" which is stdin,
+if no files given cat loops stdin to stdout.
