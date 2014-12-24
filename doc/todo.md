@@ -14,10 +14,11 @@ Week1 - Ends 4th of January
 * Research AI
 * Better CraftOS environment
   1. cat - **done**
-  2. wget
-  3. gget (wget alias for git)
-  4. installer and startup script
-  5. shell scripting improvements (consider or improve [Do](http://turtlescripts.com/project/gjdhhi-Do-v2-0))
+  2. more, less?
+  3. wget
+  4. gget (wget alias for git)
+  5. installer and startup script
+  6. shell scripting improvements (consider or improve [Do](http://turtlescripts.com/project/gjdhhi-Do-v2-0))
 
 ### Legan ###
 * Connect with teammates
