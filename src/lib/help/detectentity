@@ -1,2 +1,2 @@
 usage: detects if there is an entity in front of
-turtle$
+turtle, note that fuel is needed and consumed.
