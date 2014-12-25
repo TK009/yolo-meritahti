@@ -26,6 +26,7 @@ Week1 - Ends 4th of January
 
 ### KatsCyl ###
 * Get to know lua - **in progress**
-* Research AI, mainly watch [these](http://tinyurl.com/lgoul6c)
-* Help with CraftOs env
+* Research AI, mainly watch [these](http://tinyurl.com/lgoul6c)(2/29)
+* Random CraftOS and Turtle API additions
   * pwd - *done*
+  * detectentity - *done*
