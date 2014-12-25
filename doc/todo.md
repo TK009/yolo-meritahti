@@ -22,7 +22,10 @@ Week1 - Ends 4th of January
 
 ### Legan ###
 * Connect with teammates
+* Get to know lua
 
 ### KatsCyl ###
-* Get to know lua
-* Research AI
+* Get to know lua - **in progress**
+* Research AI, mainly watch [these](http://tinyurl.com/lgoul6c)
+* Help with CraftOs env
+  * pwd - *done*
