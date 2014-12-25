@@ -17,9 +17,9 @@ Week1 - Ends 4th of January
   2. more, less?
   3. wget - **done**
   4. gget (wget alias for git)
-  5. installer
+  5. installer **in progress**
   6. startup script
-  6. shell scripting improvements (consider or improve [Do](http://turtlescripts.com/project/gjdhhi-Do-v2-0))
+  6. shell scripting improvements (consider or improve [Do v2](http://turtlescripts.com/project/gjdhhi-Do-v2-0))
 
 ### Legan ###
 * Connect with teammates
