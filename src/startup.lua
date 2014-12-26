@@ -32,6 +32,16 @@ helpPath = helpPath .. ":" .. DIRS.help
 help.setPath(helpPath)
 
 
+-- System global
+--
+
+System = {}
+local file = io.open(DIRS.core .. "packages")
+local packagesstr = file.readAll()
+file:close()
+System.packages = textutils.unserialize(packagesstr)
+
+
 -- Run Core libs
 --
 
@@ -49,7 +59,10 @@ for _, coreFile in pairs(coreFiles) do
 end
 print("Done.")
 
+
+
 -- Name the computer
+--
 local label = os.getComputerLabel()
 
 if not label then
@@ -61,6 +74,8 @@ if not label then
 end
 
 term.clear()
+term.setCursorPos(1,1)
+
 print("=====================")
 print("ID:" .. os.getComputerID() .. " " .. label)
 print("Welcome.")

@@ -11,6 +11,16 @@ local tArgs = { ... }
 
 local BaseURL = "http://pesutykki.mooo.com/dump/yolo-meritahti"
 
+local PackagesPath = "/packages"
+
+if not http.fetch then
+    error "Should have http.fetch function, did you run this with the bootstrap script?"
+end
+
+
+---------------------------------------
+-- GLOBALS
+
 -- Directory structure
 if not DIRS then
     DIRS = 
@@ -23,10 +33,8 @@ if not DIRS then
         }
 end
 
-local PackagesPath = "/packages"
-
-if not http.fetch then
-    error "Should have http.fetch function, did you run this with the bootstrap script?"
+if not system then
+    System = { packages = {} }
 end
 
 
@@ -85,7 +93,7 @@ end
 
 
 local function findPackage(name)
-    for categoryName, categoryPkgs in pairs(os.packages) do
+    for categoryName, categoryPkgs in pairs(System.packages) do
         for packageName, _ in pairs(categoryPkgs) do
             if name == packageName then
                 return categoryName
@@ -152,7 +160,7 @@ end
 
 local function installPackage(category, name)
 
-    local package = os.packages[category][name]
+    local package = System.packages[category][name]
 
     for keyInfo, values in pairs(package) do
         if DIRS[keyInfo] then
@@ -183,7 +191,7 @@ local function updateDB()
         hFile = io.open(PackagesPath, "w")
         hFile:write(packagesstr)
         hFile:close()
-        os.packages = res
+        System.packages = res
         print "Success."
     else
         error("Error, Package db not updated. " .. res)
@@ -210,7 +218,7 @@ local function installAll()
 
     backupStartup()
 
-    for categoryName, category in pairs(os.packages) do
+    for categoryName, category in pairs(System.packages) do
         print("=== Install category [" .. categoryName .. "] ===")
         for packageName, _ in pairs(category) do
             installPackage(categoryName, packageName)
