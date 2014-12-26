@@ -9,10 +9,11 @@ if no files given cat loops stdin to stdout.
 ]]
 
 local output = io.output()
-local fileoutput = false
+local usingFileoutput = false
+
 if tArgs[1] == "-o" then
     output = io.open(tArgs[2], "w")
-    fileoutput = true
+    usingFileoutput = true
     table.remove(tArgs, 2)
     table.remove(tArgs, 1)
 end
@@ -20,10 +21,13 @@ end
 
 for _, inputPath in ipairs(tArgs) do
     local inputFile
+    local usingFileinput = false
+
     if inputPath == "-" then
         inputFile = io.input()
     else
         inputFile = io.open(inputPath)
+        usingFileinput = true
     end
 
     -- Safety checks
@@ -32,7 +36,9 @@ for _, inputPath in ipairs(tArgs) do
             output:write(line .. "\n")
         end
 
-        io.close(inputFile)
+        if usingfileinput then
+            inputFile:close()
+        end
 
     else
         print("Error! Invalid input file: " .. inputPath)
@@ -41,7 +47,7 @@ for _, inputPath in ipairs(tArgs) do
     end
 end
 
-if fileoutput then
+if usingFileoutput then
     output:close()
 end
 
