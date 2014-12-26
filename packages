@@ -1,5 +1,8 @@
 { core =
-    { http = 
+    { startup =
+        { root = { startup = "/src/startup.lua" }
+        }
+    , http = 
         { core = { http = "/src/lib/core/http" }
         }
     , turtle =

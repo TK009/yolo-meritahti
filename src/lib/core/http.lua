@@ -1,5 +1,5 @@
 
-http.fetch = function (url)
+local function fetch(url)
     local validUrl, urlError = http.checkURL(url)
 
     if not validUrl then
@@ -21,7 +21,7 @@ http.fetch = function (url)
 end
 
 
-http.save = function (url, destination)
+local function save(url, destination)
 
     contents = http.fetch(url)
 
@@ -31,3 +31,9 @@ http.save = function (url, destination)
     hFile:close()
 
 end
+
+if http then
+    http.fetch = fetch
+    http.save  = save
+end
+

@@ -12,13 +12,16 @@ local tArgs = { ... }
 local BaseURL = "http://pesutykki.mooo.com/dump/yolo-meritahti"
 
 -- Directory structure
-local DIRS = 
-    { etc  = "/etc"
-    , lib  = "/lib"
-    , core = "/lib/core"
-    , help = "/lib/help"
-    , bin  = "/bin"
-    }
+if not DIRS then
+    DIRS = 
+        { etc  = "/etc"
+        , lib  = "/lib"
+        , core = "/lib/core"
+        , help = "/lib/help"
+        , bin  = "/bin"
+        , root = "/" -- Used for startup
+        }
+end
 
 local PackagesPath = "/packages"
 
@@ -28,6 +31,7 @@ end
 
 
 
+---------------------------------------
 -- UTIL
 
 -- enable string indexing: "aoeu"[2] == "o"
@@ -86,6 +90,45 @@ local function findPackage(name)
     return nil
 end
 
+
+
+local function backupStartup()
+    print("Checking for startup")
+    if fs.exists("startup") then
+        print("Startup found")
+        if fs.exists("startup.old") then
+            fs.delete("startup.old")
+            print("Renaming startup to startup.old...")
+            fs.copy("startup", "startup.old")
+            fs.delete("startup")
+        else
+            print("Renaming startup to startup.old...")
+            fs.copy("startup", "startup.old")
+            fs.delete("startup")
+        end
+    end
+end
+
+-- Adds DIRS to startup
+local function fixStartup()
+    print "Write configuration to startup..."
+
+    local file = io.open("/startup", "a")
+    local seekRes = file:seek("set", 0)
+    if seekRes ~= 0 then
+        print("Warning, seek error: " .. seekRes)
+    end
+    file:write("DIRS = ")
+    file:write(textutils.serialize(DIRS))
+    file:write("\n")
+    file:close()
+    print "Done."
+end
+
+
+
+
+------------------------------------------
 -- ACTIONS
 
 
@@ -131,22 +174,6 @@ end
 
 
 
-local function backupStartup()
-    print("Checking for startup")
-    if fs.exists("startup") then
-        print("Startup found")
-        if fs.exists("startup.old") then
-            fs.delete("startup.old")
-            print("Renaming startup to startup.old...")
-            fs.copy("startup", "startup.old")
-            fs.delete("startup")
-        else
-            print("Renaming startup to startup.old...")
-            fs.copy("startup", "startup.old")
-            fs.delete("startup")
-        end
-    end
-end
 
 
 
@@ -172,14 +199,19 @@ local function installAll()
         end
     end
 
+    -- write DIRS to startup
+    fixStartup()
+
     print "Reboot!"
     os.sleep(2)
 end
 
 
 
-
+------------------------------
 -- RUN
+
+
 local action = tArgs[1] or "install"
 local args = table.unpack(tArgs, 2)
 

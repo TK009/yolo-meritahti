@@ -1,5 +1,5 @@
 
-turtle.detectEntity = function()
+local detectEntity = function()
     if (turtle.detect()) then
         return false
     end
@@ -16,3 +16,8 @@ turtle.detectEntity = function()
     
     return not canmove
 end
+
+if turtle then
+    turtle.detectEntity = detectEntity
+end
+
