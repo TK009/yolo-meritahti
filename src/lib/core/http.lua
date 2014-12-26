@@ -1,6 +1,5 @@
 
-http.save = function (url, destination)
-
+http.fetch = function (url)
     local validUrl, urlError = http.checkURL(url)
 
     if not validUrl then
@@ -18,10 +17,15 @@ http.save = function (url, destination)
         error("Invalid url?, http response: " .. responseCode)
     end
 
+    return result.readAll()
+end
+
+
+http.save = function (url, destination)
+
+    contents = http.fetch(url)
+
     -- Save to a file
-
-    contents = result.readAll()
-
     hFile = io.open(destination, "w")
     hFile:write(contents)
     hFile:close()
