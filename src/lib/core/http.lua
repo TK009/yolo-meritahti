@@ -10,7 +10,7 @@ http.save = function (url, destination)
     -- Fetch
     local result = http.get(url)
     if not result then
-      error("Unknown http error!")
+        error("Unknown http error!")
     end
 
     local responseCode = result.getResponseCode()
