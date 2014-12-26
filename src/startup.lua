@@ -37,10 +37,10 @@ help.setPath(helpPath)
 
 print "Loading startup files..."
 
-local coreFiles = fs.list(core)
+local coreFiles = fs.list(DIRS.core)
 
-for _, coreFile in coreFiles do
-    local corePath = DIRS.core .. coreFile
+for _, coreFile in pairs(coreFiles) do
+    local corePath = DIRS.core .. "/" .. coreFile
 
     if not fs.isDir(corePath) then
         io.write(coreFile .. " ")
@@ -49,5 +49,19 @@ for _, coreFile in coreFiles do
 end
 print("Done.")
 
-print("ID:" .. os.getComputerID() .. " " .. os.getComputerLabel())
+-- Name the computer
+local label = os.getComputerLabel()
+
+if not label then
+    print("Your computer has no label.")
+    print("Give it a name: ")
+    local name = io.read()
+    os.setComputerLabel(name)
+    label = name
+end
+
+term.clear()
+print("=====================")
+print("ID:" .. os.getComputerID() .. " " .. label)
+print("Welcome.")
 
