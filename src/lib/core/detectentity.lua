@@ -1,4 +1,5 @@
-function detectEntity()
+
+turtle.detectEntity = function()
     if (turtle.detect()) then
         return false
     end
