@@ -220,9 +220,9 @@ local function installAll()
     -- write DIRS to startup
     writeConf()
 
-    print "Reboot!"
-    os.sleep(2)
-    os.reboot()
+    if ask("Reboot?", "y") then
+        os.reboot()
+    end
 end
 
 
