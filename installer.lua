@@ -79,8 +79,8 @@ end
 
 
 local function findPackage(name)
-    for categoryName, categoryPkgs in ipairs(os.packages) do
-        for packageName, _ in ipairs(categoryPkgs) do
+    for categoryName, categoryPkgs in pairs(os.packages) do
+        for packageName, _ in pairs(categoryPkgs) do
             if name == packageName then
                 return categoryName
             end
@@ -180,7 +180,7 @@ end
 local function installAll()
     ask("Install all packages", "y")
 
-    for _,dir in ipairs(DIRS) do
+    for _,dir in pairs(DIRS) do
         if not fs.exists(dir) then
             print("Creating directory " .. dir)
             fs.makeDir(dir)
@@ -192,9 +192,9 @@ local function installAll()
 
     backupStartup()
 
-    for categoryName, category in ipairs(packages) do
+    for categoryName, category in pairs(packages) do
         print("=== Install category [" .. categoryName .. "] ===")
-        for packageName, _ in ipairs(category) do
+        for packageName, _ in pairs(category) do
             installPackage(categoryName, packageName)
         end
     end
@@ -219,7 +219,7 @@ if action == "install" and #args == 0 then
     installAll()
 
 elseif action == "install" and #args > 0 then
-    for pkg in pairs(args) do
+    for _,pkg in ipairs(args) do
         local cat = findPackage(pkg)
         if cat then
             installPackage(cat, pkg)

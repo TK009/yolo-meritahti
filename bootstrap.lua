@@ -11,7 +11,7 @@ end
 local programs = { ["tmp"] = "/lib/core/http.lua"
                  , ["/installer"] = "/installer.lua"}
 
-for destination, remote in ipairs(programs) do
+for destination, remote in pairs(programs) do
     local url = baseURL .. remote
     local result = http.get(url)
 
