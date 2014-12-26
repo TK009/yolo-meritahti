@@ -213,7 +213,7 @@ end
 
 
 local action = tArgs[1] or "install"
-local args
+local args = {}
 if #tArgs > 0 then
     table.remove(tArgs, 1)
     args = tArgs
