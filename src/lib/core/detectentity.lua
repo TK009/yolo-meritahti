@@ -1,5 +1,5 @@
 
-local detectEntity = function()
+local function detectEntity()
     if (turtle.detect()) then
         return false
     end
