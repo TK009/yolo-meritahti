@@ -3,7 +3,7 @@
         { root = { startup = "/src/startup.lua" }
         }
     , http = 
-        { core = { http = "/src/lib/core/http" }
+        { core = { http = "/src/lib/core/http.lua" }
         }
     , turtle =
         { core = { detectentity = "/src/lib/core/detectentity.lua" }
@@ -23,12 +23,10 @@
         { bin  = { cat = "/src/cat.lua" }
         , help = { cat = "src/lib/help/cat" }
         }
-    }
     , pwd =
         { bin  = { pwd = "/src/pwd.lua" }
         , help = { pwd = "src/lib/help/pwd" }
         }
     }
-, turtle = {}
 , hiveai = {}
 }

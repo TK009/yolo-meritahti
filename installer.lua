@@ -34,7 +34,7 @@ end
 ---------------------------------------
 -- UTIL
 
--- enable string indexing: "aoeu"[2] == "o"
+-- enable string indexing: "asdf"[2] == "s"
 getmetatable('').__index = function(str,i)
     return string.sub(str,i,i)
 end
@@ -55,19 +55,25 @@ local function pathJoin(a, b)
 end
 
 local function ask(msg, default)
-    local defLow = default:lower()
+    local defLow = string.lower(default)
     assert(defLow == "y" or defLow == "n")
+
+    local oth
     if defLow == "n" then
-        local oth = "y"
+        oth = "y"
     else
-        local oth = "n"
+        oth = "n"
     end
 
-    local answer
+    local answer = ""
     while true do
-        print(msg .. " [" .. default:upper() .. oth .. "]")
-        answer = io.read():lower()
+        print(msg .. " [" .. string.upper(default) .. oth .. "]")
+        answer = string.lower(io.read())
         
+        if answer == "" then
+            answer = defLow
+        end
+
         if answer == "n" then
             return false
         elseif answer == "y" then
@@ -110,19 +116,31 @@ local function backupStartup()
 end
 
 -- Adds DIRS to startup
-local function fixStartup()
-    print "Write configuration to startup..."
+local function writeConf()
+    print "Writing configuration"
 
-    local file = io.open("/startup", "a")
-    local seekRes = file:seek("set", 0)
-    if seekRes ~= 0 then
-        print("Warning, seek error: " .. seekRes)
-    end
+    local file = io.open("/startupdirs" ,"w")
     file:write("DIRS = ")
     file:write(textutils.serialize(DIRS))
     file:write("\n")
     file:close()
+
+    -- concatenate files
+    fs.move("/startup", "/startup.bak")
+    shell.run(DIRS.bin .. "/cat -o /startup /startupdirs /startup.bak" )
+    fs.delete("/startup.bak")
+    fs.delete("/startupdirs")
+
     print "Done."
+end
+
+
+-- Critical unserialize, throws an error if not successful
+local function critUnserialize( s  )
+    local func, etc = assert(loadstring( "return "..s, "unserialize"  ), "failed")
+    setfenv( func, {}  )
+    local ok, result = assert( pcall( func ) )
+    return result
 end
 
 
@@ -136,11 +154,11 @@ local function installPackage(category, name)
 
     local package = os.packages[category][name]
 
-    for keyInfo, values in package do
+    for keyInfo, values in pairs(package) do
         if DIRS[keyInfo] then
             print("Installing " .. name .. " from [" .. category .. "]")
-            for destination, source in values do
-                print("Downloading " .. source)
+            for destination, source in pairs(values) do
+                print(".. Downloading " .. source)
                 http.save( pathJoin(BaseURL, source)
                          , pathJoin(DIRS[keyInfo], destination)
                          )
@@ -159,16 +177,16 @@ local function updateDB()
     print "Fetching official package database..."
     local packagesstr = http.fetch(BaseURL .. PackagesPath)
 
-    print "parsing"
-    local res = textutils.unserialize(packagesstr)
-    if res then
-        hFile = io.open(packagesPath, "w")
+    print ".. parsing"
+    local ok, res = pcall( critUnserialize, packagesstr )
+    if ok then
+        hFile = io.open(PackagesPath, "w")
         hFile:write(packagesstr)
         hFile:close()
         os.packages = res
         print "Success."
     else
-        print "Error! Package db not updated"
+        error("Error, Package db not updated. " .. res)
     end
 end
 
@@ -182,7 +200,7 @@ local function installAll()
 
     for _,dir in pairs(DIRS) do
         if not fs.exists(dir) then
-            print("Creating directory " .. dir)
+            print(".. Creating directory " .. dir)
             fs.makeDir(dir)
         end
     end
@@ -192,7 +210,7 @@ local function installAll()
 
     backupStartup()
 
-    for categoryName, category in pairs(packages) do
+    for categoryName, category in pairs(os.packages) do
         print("=== Install category [" .. categoryName .. "] ===")
         for packageName, _ in pairs(category) do
             installPackage(categoryName, packageName)
@@ -200,10 +218,11 @@ local function installAll()
     end
 
     -- write DIRS to startup
-    fixStartup()
+    writeConf()
 
     print "Reboot!"
     os.sleep(2)
+    os.reboot()
 end
 
 

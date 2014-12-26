@@ -1,7 +1,6 @@
 
 
-
--- Table called DIRS will be pasted above this
+-- Table called DIRS will be loaded above
 -- It has structure like this:
 -- DIRS = 
 --     { etc  = "/etc"
