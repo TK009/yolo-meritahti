@@ -3,6 +3,12 @@ yolo-meritahti
 
 ComputerCraft AI project. Goal of the project: Conquer the minecraft world with Turtles!
 
+Downloading to a computer
+-------------------------
+On a CraftOS command line:
+
+`pastebin run CEx2cb4n`
+
 
 Directory Structure
 -------------------
@@ -13,10 +19,11 @@ Directory Structure
 
 On a ComputerCraft computer:
 
-* lib/ : src/lib/ copied as is 
+* lib/ : src/lib/ copied as is.
 * lib/help/ : help files for programs etc. Can be read with CraftOS help program if installer was used.
 * lib/core/ : core libraries and api tweaks that will be loaded at startup. These can be used by any program.
-* bin/ : programs are copied here (from src/) without `.lua` extension
+* bin/ : programs are copied here (from src/) without `.lua` extension.
+* etc/ : config files for programs
 
 
 
