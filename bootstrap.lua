@@ -8,14 +8,14 @@ if not http then
     error "This installer requires http. How did you even get this?"
 end
 
-local programs = { ["tmp"] = "/lib/core/http.lua"
+local programs = { ["tmp"] = "/src/lib/core/http.lua"
                  , ["/installer"] = "/installer.lua"}
 
 for destination, remote in pairs(programs) do
     local url = baseURL .. remote
     local result = http.get(url)
 
-    if result and result.responseCode == 200 then
+    if result and result.responseCode() == 200 then
         local contents = result.readAll()
         local hFile = io.open(destination, "w")
         hFile:write(contents)

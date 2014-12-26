@@ -213,7 +213,12 @@ end
 
 
 local action = tArgs[1] or "install"
-local args = table.unpack(tArgs, 2)
+local args
+if #tArgs > 0 then
+    table.remove(tArgs, 1)
+    args = tArgs
+end
+
 
 if action == "install" and #args == 0 then
     installAll()
