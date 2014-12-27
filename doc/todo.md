@@ -16,7 +16,7 @@ Week1 - Ends 4th of January
   1. cat - **done**
   2. more, less?
   3. wget - **done**
-  4. gget (wget alias for git) *failure: https doesn't work on our server*
+  4. gget (wget alias for git) **failure:** *https doesn't work on our server*
   5. installer **done**
   6. startup script **done**
   7. gather some core library functions **in progress**
