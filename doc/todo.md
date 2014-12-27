@@ -33,4 +33,7 @@ Week1 - Ends 4th of January
   * pwd - *done*
   * detectentity - *done*
 * Turtle programs
-  * scan structure
+  * scan structure *in progress*
+  * replicate scanned structures
+    * Single turtle building
+    * Smart work distribution among many turtles
