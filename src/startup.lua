@@ -37,7 +37,7 @@ help.setPath(helpPath)
 
 System = {}
 local file = io.open(DIRS.root .. "packages")
-local packagesstr = file.readAll()
+local packagesstr = file:read()
 file:close()
 System.packages = textutils.unserialize(packagesstr)
 
