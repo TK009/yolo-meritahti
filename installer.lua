@@ -42,15 +42,16 @@ end
 ---------------------------------------
 -- UTIL
 
--- enable string indexing: "asdf"[2] == "s"
-getmetatable('').__index = function(str,i)
+-- Enable string indexing: "asdf"[2] == "s"
+--getmetatable('').__index =
+local function ix(str,i)
     return string.sub(str,i,i)
 end
 
 -- Join two paths so there is one '/' between
 local function pathJoin(a, b)
-    local aSlash = a[-1] == "/"
-    local bSlash = b[1] == "/"
+    local aSlash = ix(a,-1) == "/"
+    local bSlash = ix(b, 1) == "/"
     if (aSlash and not bSlash) or (not aSlash and bSlash) then
         return a .. b
     elseif aSlash and bSlash then
