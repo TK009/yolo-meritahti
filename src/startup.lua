@@ -36,7 +36,7 @@ help.setPath(helpPath)
 --
 
 System = {}
-local file = io.open(DIRS.core .. "packages")
+local file = io.open(DIRS.root .. "packages")
 local packagesstr = file.readAll()
 file:close()
 System.packages = textutils.unserialize(packagesstr)
@@ -76,7 +76,8 @@ end
 term.clear()
 term.setCursorPos(1,1)
 
-print("=====================")
+
+print("Welcome, professor.")
 print("ID:" .. os.getComputerID() .. " " .. label)
-print("Welcome.")
+print("=====================")
 

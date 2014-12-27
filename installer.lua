@@ -228,8 +228,10 @@ local function installAll()
     -- write DIRS to startup
     writeConf()
 
-    if ask("Reboot?", "y") then
+    if ask("Do additional Reboot?", "y") then
         os.reboot()
+    else
+        shell.run(DIRS.root .. "/startup")
     end
 end
 
