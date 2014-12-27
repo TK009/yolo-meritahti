@@ -3,12 +3,22 @@ yolo-meritahti
 
 ComputerCraft AI project. Goal of the project: Conquer the minecraft world with Turtles!
 
+Project status
+--------------
+
+**Environment**
+* We have an installer! see `/packages` and `/src/lib/help/packages` on what is installed where
+* Useful core and turtle libraries are in progress
+
+
+**The AI**
+* Planning in progress
+
 Downloading to a computer
 -------------------------
 On a CraftOS command line:
 
 `pastebin run CEx2cb4n`
-
 
 Directory Structure
 -------------------
