@@ -32,4 +32,5 @@ Week1 - Ends 4th of January
 * Random CraftOS and Turtle API additions
   * pwd - *done*
   * detectentity - *done*
+* Turtle programs
   * scan structure
