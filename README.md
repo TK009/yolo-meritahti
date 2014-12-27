@@ -7,7 +7,7 @@ Project status
 --------------
 
 **Environment**
-* We have an installer! see /packages /src/lib/help/packages on what is installed where
+* We have an installer! see `/packages` and `/src/lib/help/packages` on what is installed where
 * Useful core and turtle libraries are in progress
 
 
