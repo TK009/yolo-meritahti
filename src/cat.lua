@@ -1,12 +1,6 @@
 
 local tArgs = { ... }
 
-local usage = [[
-usage: cat [-o outputfile] [files]
-files are paths to readable files or "-" which is stdin,
-if no files given cat loops stdin to stdout.
--o outputfile   write to a file instead of stdout
-]]
 
 local output = io.output()
 local usingFileoutput = false
@@ -42,7 +36,7 @@ for _, inputPath in ipairs(tArgs) do
 
     else
         print("Error! Invalid input file: " .. inputPath)
-        print(usage)
+        shell.run "help cat"
         error()
     end
 end

@@ -1,0 +1,8 @@
+In boot the startup script loads some core libraries that can be used any programs.
+
+Use `help function` for more help
+List of core functions:
+detectEntity
+http.fetch
+http.save
+

@@ -1,7 +1,8 @@
 
-local usage = [[
-usage: pwd
-Prints name of current/working directory
-]]
+tArgs = {...}
+
+if #tArgs > 0 then
+    shell.run "help pwd"
+end
 
 print(shell.dir())

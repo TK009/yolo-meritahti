@@ -1,0 +1,14 @@
+Packages file at the root of the system or the repository contains info about package and its files.
+
+It has the following hierarchy:
+{ category_name = {
+    package_name = {
+        system_dir_name = { file1, file2, ... },
+        ... 
+        },
+    ...
+    },
+...
+}
+
+Where system_dir_name is one of DIRS, defined in the beginning of startup and installer. Some of these are root, core, help, lib, bin, etc.

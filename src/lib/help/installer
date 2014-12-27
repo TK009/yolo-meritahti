@@ -1,0 +1,10 @@
+usage: installer [<cmd>]
+Without arguments makes a backup of startup and (re)installs all packages.
+
+Commands:
+
+installer install <pkg>
+    (re)installs package
+installer search <pkg>
+    check if package exists
+installer 

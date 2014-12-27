@@ -1,6 +1,9 @@
 { core =
     { startup =
         { root = { startup = "/src/startup.lua" }
+        , help = { core =    "/src/lib/help/core"
+                 , startup = "/src/lib/help/core"
+                 }
         }
     , http = 
         { core = { http = "/src/lib/core/http.lua" }
@@ -13,6 +16,9 @@
 , base =
     { installer =
         { bin  = { installer = "/installer.lua" }
+        , help = { installer = "/src/lib/help/installer"
+                 , packages  = "/src/lib/help/packages"
+                 }
         }
     , wget =
         { bin  = { wget = "/src/wget.lua" }
