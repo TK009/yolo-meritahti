@@ -6,8 +6,8 @@ local saveFile = "domeq.save"
 if not utils then error "Requires core utils library" end
 local ask = utils.ask
 
-if not ask("Warning! Not yet tested. Continue?", "y") then
-    exit()
+if not ask("Warning! Not fully tested. Continue and give permission to break blocks?", "y") then
+    error()
 end
 
 -- Globals
@@ -22,10 +22,29 @@ if #tArgs == 0 and fs.exists(saveFile) then
    end
 
 elseif #tArgs ~= 2 then
-    print "usage domeq <baseRadius> <height>"
+    print "usage: domeq <baseRadius> <height>"
+    print "Builds a quarter of dome. Place turtle at z=0 at the center of quarter-change (use odd baseRadius)"
     error()
 end
 
+
+local actions = 
+    { up =
+        { dig = turtle.digUp
+        , detect = turtle.detectUp
+        , move = turtle.up
+        }
+    , down =
+        { dig = turtle.digDown
+        , detect = turtle.detectDown
+        , move = turtle.down
+        }
+    , forward =
+        { dig = turtle.dig
+        , detect = turtle.detect
+        , move = turtle.forward
+        }
+    }
 
 
 local direction = 
@@ -49,12 +68,19 @@ local function leftwards(dir) return (dir - 1) % 4 end
 -- turn me to dir, returns the dir
 local function turn(me, dir)
     local turns = (me - dir)
-    if turns == 2 or turns == -2 then
+    local absturns = math.abs(turns)
+    io.write("(t:" .. tostring(turns) .. ")")
+
+    if absturns == 3 then -- reverse
+        turns = - turns
+    end
+
+    if absturns == 2 then
         turtle.turnRight()
         turtle.turnRight()
-    elseif turns % 2 > 0 then
+    elseif turns > 0 then -- +1 (%2)
         turtle.turnLeft()
-    elseif turns % 2 < 0 then
+    elseif turns < 0 then -- -1 (%2)
         turtle.turnRight()
     end
     return dir
@@ -66,10 +92,10 @@ end
 
 local function selectBlock()
     repeat
-        blockData = turtle.getItemDetail() 
         if not ask("Put building blocks to inventory and press Enter (or n to quit)", "y") then
-            exit()
+            error()
         end
+        blockData = turtle.getItemDetail() 
 
         local isFuel = turtle.refuel(0)
 
@@ -77,8 +103,6 @@ local function selectBlock()
             or (isFuel and ask("Selected item is fuel item, confirm selection.", "n"))
         ) then
             return blockData.name
-        else
-            selectNext()
         end
 
     until false 
@@ -101,11 +125,11 @@ local function checkBlocks(block)
     return false
 end
 
-local function clearWay(destroyAction)
-    while turtle.detect() do
-        if not destroyAction() then
+local function clearWay(actionSet)
+    while actionSet.detect() do
+        if not actionSet.dig() then
             if not ask("Something unbreakable in front, needs manual destruction. Do you want to continue?", "y") then
-                exit()
+                error()
             end
         end
     end
@@ -131,7 +155,7 @@ local function refuelIfNeeded()
                     end
                 else
                     if not ask("Refuel items from inventory? Press Enter to continue or n to quit") then
-                        exit()
+                        error()
                     end
                 end
             end
@@ -144,28 +168,28 @@ end
 
 -- go up if blocked
 -- mine when coming down
-local function goActionDestructively(action, destroyAction, n)
+local function goActionDestructively(actionSet, n)
     assert(n > 0, "negative goForward!")
     for step = 1, n do
-        clearWay(destroyAction)
-        while not action() do
+        clearWay(actionSet)
+        while not actionSet.move() do
             if not refuelIfNeeded() then
-                print "Entity or unknown thing blocking way! Retrying in 3 secs..."
-                os.sleep(3)
+                print "Entity or unknown thing blocking way! Retrying in 8 secs..."
+                os.sleep(8)
             end
         end
     end
 end
 
 local function goForwardDestructively(n) 
-    goActionDestructively(turtle.forward, turtle.dig, n)
+    goActionDestructively(actions.forward, n)
 end
 
 local function goVerticallyDestructively(z)
     if z > 0 then
-        goActionDestructively(turtle.up, turtle.digUp, z)
+        goActionDestructively(actions.up, z)
     else
-        goActionDestructively(turtle.down, turtle.digDown, math.abs(z))
+        goActionDestructively(actions.down, math.abs(z))
     end
 end
 
@@ -176,16 +200,29 @@ local function navigateOverRelative(x, y, z, heading)
     if z ~= 0 then
         goVerticallyDestructively(z)
     end
+
+    -- debug
+    io.write(newHeading)
+
     -- Y
     if y ~= 0 then
-        newHeading = turn(towards(0,y))
+
+        newHeading = turn(newHeading, towards(0,y))
         goForwardDestructively(math.abs(y))
     end
+
+    -- debug
+    io.write(newHeading)
+
     -- X
     if x ~= 0 then
-        newHeading = turn(towards(x,0))
+        newHeading = turn(newHeading, towards(x,0))
         goForwardDestructively(math.abs(x))
     end
+
+    -- debug
+    io.write(newHeading)
+    print " EOL"
 
     return newHeading
 end
@@ -201,9 +238,9 @@ local function placeBelow(block)
             error "Can't dig down"
         end
     end
-
-    if not turtle.placeDown() then
-        error "Unable to place block"
+    
+    while not turtle.placeDown() do
+        print "Unable to place block"
     end
     return true
 end
@@ -225,22 +262,22 @@ end
 
 
 
-local function domeq(baseRadius, height)
+local function buildDomeq(baseRadius, height)
 
     -- ALGORITHM VARS
     --
 
-    local width = baseRadius
-    local depth = baseRadius
 
-    local x_radius = (width - 1) / 2
-    local y_radius = (depth - 1) / 2
+    --local x_radius = (width - 1) / 2
+    --local y_radius = (depth - 1) / 2
+    local x_radius = baseRadius
+    local y_radius = baseRadius
     local z_radius = height
 
     local tolerance = 0.1
     local thickness = 0.5
 
-    local dome = {}
+    -- local dome = {}
     local radius = math.min(x_radius, y_radius, z_radius)
     local solid
     local count = 0
@@ -255,7 +292,7 @@ local function domeq(baseRadius, height)
     --
             
     local own = {} -- state
-    own.heading = direction.south
+    own.heading = direction.east
     own.x = 0
     own.y = y_radius
     own.z = 0
@@ -268,17 +305,11 @@ local function domeq(baseRadius, height)
 
 
 
-    for z = 0, z_radius-1 do
-        --if not dome[z] then dome[z] = {} end
+    for z = 0, z_radius do
 
+        for y = y_radius, 1, -1 do
 
-        --for (var y = -y_radius, _y = 0; y <= y_radius; y++, _y++) {
-        for y = y_radius, 0, -1 do
-            --if not dome[z][y] then dome[z][y] = {} end
-
-            --for (var x = -x_radius, _x = 0; x <= x_radius; x++, _x++) {
             for x = 0, x_radius do
-                --if not dome[z][y][x] then dome[z][y][x] = {} end
 
                 local xP = x / x_ratio
                 local yP = y / y_ratio
@@ -289,12 +320,22 @@ local function domeq(baseRadius, height)
                 --if hollow
                 if math.abs(distance - radius) <= thickness then
                     -- solid = true
+
+                    deltax = x - own.x
+                    deltay = y - own.y
+                    deltaz = (z + 1) - own.z
+                    io.write("abs: " .. x .. " " .. y .. " " .. z)
+                    --print("own: " .. own.x .. " " .. own.y .. " " .. own.z)
+                    print(" del: " .. deltax .. " " .. deltay .. " " .. deltaz)
+
                     own.heading = navigateOverRelative(
-                        own.x - x,
-                        own.y - y,
-                        own.z - z + 1,
+                        deltax, deltay, deltaz,
                         own.heading
                     )
+                    own.x = x
+                    own.y = y
+                    own.z = z + 1
+
                     if domeq.replay then
                         comparePos(own, targetPos)
                     else
@@ -306,7 +347,6 @@ local function domeq(baseRadius, height)
                 --  solid = (distance - tolerance) < radius
                 --end
 
-                --dome[z][y][x] = solid
             end
         end
     end
@@ -314,5 +354,6 @@ end
 
 local baseRadius = tArgs[1]
 local height = tArgs[2]
-domeq(baseRadius, height)
+buildDomeq(baseRadius, height)
+print "Finished."
 
