@@ -1,8 +1,15 @@
 In boot the startup script loads some core libraries that can be used any programs.
 
-Use `help function` for more help
+Use `help function` for more help or check the source.
 List of core functions:
-detectEntity
-http.fetch
-http.save
+
+turtle.detectEntity()
+http.fetch(url)
+http.save(url, destinationPath)
+utils.ask(question, default_yn)
+utils.saveData(path, table)
+utils.loadData(path)
+utils.writeFile(path, string)
+utils.readFile(path)
+
 
