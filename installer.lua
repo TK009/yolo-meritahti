@@ -33,8 +33,8 @@ if not DIRS then
         }
 end
 
-if not system then
-    System = { packages = {} }
+if not os.packages then
+    os.packages = {}
 end
 
 
@@ -94,7 +94,7 @@ end
 
 
 local function findPackage(name)
-    for categoryName, categoryPkgs in pairs(System.packages) do
+    for categoryName, categoryPkgs in pairs(os.packages) do
         for packageName, _ in pairs(categoryPkgs) do
             if name == packageName then
                 return categoryName
@@ -161,7 +161,7 @@ end
 
 local function installPackage(category, name)
 
-    local package = System.packages[category][name]
+    local package = os.packages[category][name]
 
     for keyInfo, values in pairs(package) do
         if DIRS[keyInfo] then
@@ -192,7 +192,7 @@ local function updateDB()
         hFile = io.open(PackagesPath, "w")
         hFile:write(packagesstr)
         hFile:close()
-        System.packages = res
+        os.packages = res
         print "Success."
     else
         error("Error, Package db not updated. " .. res)
@@ -219,7 +219,7 @@ local function installAll()
 
     backupStartup()
 
-    for categoryName, category in pairs(System.packages) do
+    for categoryName, category in pairs(os.packages) do
         print("=== Install category [" .. categoryName .. "] ===")
         for packageName, _ in pairs(category) do
             installPackage(categoryName, packageName)
@@ -259,7 +259,7 @@ elseif action == "install" and #args > 0 then
         if cat then
             installPackage(cat, pkg)
         else
-            print(name .. " was not found in [" .. category .. "]")
+            print(name .. " was not found.")
         end
     end
 

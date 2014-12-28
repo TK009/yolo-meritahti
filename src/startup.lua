@@ -32,14 +32,13 @@ helpPath = helpPath .. ":" .. DIRS.help
 help.setPath(helpPath)
 
 
--- System global
+-- Packages global
 --
 
-System = {}
 local file = io.open(DIRS.root .. "packages")
 local packagesstr = file:read()
 file:close()
-System.packages = textutils.unserialize(packagesstr)
+os.packages = textutils.unserialize(packagesstr)
 
 
 -- Run Core libs
