@@ -12,6 +12,9 @@
         { core = { detectentity = "/src/lib/core/detectentity.lua" }
         , help = { detectEntity = "/src/lib/help/detectentity" }
         }
+    , utils =
+        { core = { utils = "/src/lib/core/utils.lua" }
+        }
     }
 , base =
     { installer =
@@ -27,11 +30,11 @@
         }
     , cat =
         { bin  = { cat = "/src/cat.lua" }
-        , help = { cat = "src/lib/help/cat" }
+        , help = { cat = "/src/lib/help/cat" }
         }
     , pwd =
         { bin  = { pwd = "/src/pwd.lua" }
-        , help = { pwd = "src/lib/help/pwd" }
+        , help = { pwd = "/src/lib/help/pwd" }
         }
     }
 , hiveai = {}

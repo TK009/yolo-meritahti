@@ -1,4 +1,4 @@
-
+-- The utilities contains some useful basic lua functions
 
 local function ask(msg, default)
     local defLow = string.lower(default)
