@@ -36,6 +36,9 @@
         { bin  = { pwd = "/src/pwd.lua" }
         , help = { pwd = "/src/lib/help/pwd" }
         }
+    , domeq = 
+        { bin  = { domeq = "/src/domeq.lua" }
+        }
     }
 , hiveai = {}
 }
