@@ -16,9 +16,10 @@ Week1 - Ends 4th of January
   1. cat - **done**
   2. more, less?
   3. wget - **done**
-  4. gget (wget alias for git)
-  5. installer **in progress**
-  6. startup script
+  4. gget (wget alias for git) **failure:** *https doesn't work on our server*
+  5. installer **done**
+  6. startup script **done**
+  7. gather some core library functions **in progress**
   6. shell scripting improvements (consider or improve [Do v2](http://turtlescripts.com/project/gjdhhi-Do-v2-0))
 
 ### Legan ###
@@ -31,3 +32,8 @@ Week1 - Ends 4th of January
 * Random CraftOS and Turtle API additions
   * pwd - *done*
   * detectentity - *done*
+* Turtle programs
+  * scan structure *in progress*
+  * replicate scanned structures
+    * Single turtle building
+    * Smart work distribution among many turtles
