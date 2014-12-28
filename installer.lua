@@ -259,7 +259,7 @@ elseif action == "install" and #args > 0 then
         if cat then
             installPackage(cat, pkg)
         else
-            print(name .. " was not found.")
+            print(pkg .. " was not found.")
         end
     end
 
@@ -269,7 +269,7 @@ elseif action == "search" and #args == 1 then
     if res then
         print(args[1] .. " was found in [" .. res .. "]")
     else
-        print(name .. " was not found in [" .. category .. "]")
+        print(args[1] .. " was not found.")
     end
 
 elseif action == "update" and #args == 0 then
